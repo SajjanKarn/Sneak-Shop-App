@@ -2,6 +2,7 @@ import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import Button from "./src/components/Button";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -22,7 +23,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <WelcomeScreen />
+      {/* <WelcomeScreen /> */}
+      <LoginScreen />
     </View>
   );
 }

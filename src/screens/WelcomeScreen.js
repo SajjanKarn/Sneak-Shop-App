@@ -3,7 +3,7 @@ import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../config/colors";
 import Button from "../components/Button";
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -21,7 +21,11 @@ export default function WelcomeScreen() {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <Button backgroundColor={colors.white} color={colors.primary}>
+          <Button
+            backgroundColor={colors.white}
+            color={colors.primary}
+            onPress={() => navigation.navigate("Login")}
+          >
             Get Started
           </Button>
         </View>

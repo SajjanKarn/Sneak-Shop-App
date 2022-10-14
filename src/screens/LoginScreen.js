@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { width, height, totalSize } from "react-native-dimension";
 import Input from "../components/Input";
 
@@ -6,9 +6,9 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import Button from "../components/Button";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Login</Text>
       </View>
@@ -28,9 +28,14 @@ export default function LoginScreen() {
 
       <View style={styles.footer}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
-        <Text style={styles.footerText}>Don't have an account? Sign Up</Text>
+        <Text
+          style={styles.footerText}
+          onPress={() => navigation.navigate("Register")}
+        >
+          Don't have an account? Sign Up
+        </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -38,6 +43,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: width(5),
+    backgroundColor: colors.white,
   },
   header: {
     justifyContent: "center",

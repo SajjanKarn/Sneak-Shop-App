@@ -1,9 +1,36 @@
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
-import Button from "./src/components/Button";
+
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
+
 import RegisterScreen from "./src/screens/RegisterScreen";
+
+import { NavigationContainer } from "@react-navigation/native";
+
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
+
+const AuthNavigator = () => (
+  <Stack.Navigator initialRouteName="Welcome">
+    <Stack.Screen
+      name="Welcome"
+      component={WelcomeScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Login"
+      component={LoginScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Register"
+      component={RegisterScreen}
+      options={{ headerTitle: "" }}
+    />
+  </Stack.Navigator>
+);
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -23,11 +50,11 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      {/* <WelcomeScreen /> */}
-      {/* <LoginScreen /> */}
-      <RegisterScreen />
-    </View>
+    <NavigationContainer>
+      <View style={styles.container}>
+        <AuthNavigator />
+      </View>
+    </NavigationContainer>
   );
 }
 

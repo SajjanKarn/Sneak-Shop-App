@@ -1,11 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
+import Button from "./src/components/Button";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    "SFPro-Light": require("./assets/fonts/SFPRODISPLAY-LIGHT.ttf"),
+    "SFPro-Regular": require("./assets/fonts/SFPRODISPLAY-REGULAR.ttf"),
+    "SFPro-Medium": require("./assets/fonts/SFPRODISPLAY-MEDIUM.ttf"),
+    "SFPro-Bold": require("./assets/fonts/SFPRODISPLAY-BOLD.ttf"),
+    "Gilroy-Regular": require("./assets/fonts/Gilroy-Regular.ttf"),
+    "Gilroy-Medium": require("./assets/fonts/Gilroy-Medium.ttf"),
+    "SFPro-Semibold": require("./assets/fonts/SFPRODISPLAY-SEMIBOLD.ttf"),
+    "Gilroy-Bold": require("./assets/fonts/Gilroy-Bold.ttf"),
+    "Gilroy-Heavy": require("./assets/fonts/Gilroy-Heavy.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <WelcomeScreen />
     </View>
   );
 }
@@ -13,8 +30,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: StatusBar.currentHeight,
   },
 });

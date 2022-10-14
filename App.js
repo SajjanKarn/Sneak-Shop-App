@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import Button from "./src/components/Button";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -24,7 +25,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       {/* <WelcomeScreen /> */}
-      <LoginScreen />
+      {/* <LoginScreen /> */}
+      <RegisterScreen />
     </View>
   );
 }

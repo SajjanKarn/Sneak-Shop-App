@@ -1,19 +1,80 @@
+import { useState } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
-
 import RegisterScreen from "./src/screens/RegisterScreen";
+import HomeScreen from "./src/screens/UserNavigator/HomeScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { AntDesign } from "@expo/vector-icons";
+import colors from "./config/colors";
+import { height, totalSize } from "react-native-dimension";
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.inActiveTabBarColor,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          height: height(8),
+          borderRadius: totalSize(1),
+          position: "absolute",
+          bottom: height(2),
+          marginHorizontal: totalSize(2),
+          elevation: 2,
+        },
+      }}
+      initialRouteName="Home"
+    >
+      <Tab.Screen
+        name="Home"
+        component={WelcomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={WelcomeScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="user" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const UserAuthNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Root"
+        component={TabNavigator}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const AuthNavigator = () => (
-  <Stack.Navigator initialRouteName="Welcome">
+  <Stack.Navigator>
     <Stack.Screen
       name="Welcome"
       component={WelcomeScreen}
@@ -33,6 +94,8 @@ const AuthNavigator = () => (
 );
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
   let [fontsLoaded] = useFonts({
     "SFPro-Light": require("./assets/fonts/SFPRODISPLAY-LIGHT.ttf"),
     "SFPro-Regular": require("./assets/fonts/SFPRODISPLAY-REGULAR.ttf"),
@@ -52,7 +115,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        <AuthNavigator />
+        {isAuthenticated ? <UserAuthNavigator /> : <AuthNavigator />}
       </View>
     </NavigationContainer>
   );

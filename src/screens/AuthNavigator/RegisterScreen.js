@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   formContainer: {
-    marginTop: height(7),
+    marginTop: height(5),
   },
   buttonContainer: {
     marginTop: height(3),

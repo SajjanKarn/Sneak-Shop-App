@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { width, height, totalSize } from "react-native-dimension";
@@ -8,8 +9,14 @@ export default function Product({
   title = "Nike Air Max 270",
   price = 100,
 }) {
+  const navigate = useNavigation();
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.5}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.5}
+      onPress={() => navigate.navigate("ProductDetails")}
+    >
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}

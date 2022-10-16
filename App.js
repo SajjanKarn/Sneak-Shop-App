@@ -19,6 +19,7 @@ import HomeScreen from "./src/screens/UserNavigator/HomeScreen";
 import SearchScreen from "./src/screens/UserNavigator/SearchScreen";
 import AddScreen from "./src/screens/UserNavigator/AddScreen";
 import ProfileScreen from "./src/screens/UserNavigator/ProfileScreen";
+import ProductDetails from "./src/screens/UserNavigator/ProductDetails";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -91,6 +92,11 @@ const UserAuthNavigator = () => {
       <Stack.Screen
         name="Root"
         component={TabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProductDetails"
+        component={ProductDetails}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

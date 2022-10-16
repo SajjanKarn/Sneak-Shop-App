@@ -5,6 +5,9 @@ import colors from "../../../config/colors";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import SearchInput from "../../components/SearchInput";
 import FilterTabs from "../../components/FilterTabs";
+import Product from "../../components/Product";
+
+import MasonryList from "@react-native-seoul/masonry-list";
 
 export default function HomeScreen() {
   return (
@@ -35,6 +38,46 @@ export default function HomeScreen() {
         <View style={styles.newArrivalsHeader}>
           <Text style={styles.newArrivalsHeaderText}>New Arrivals</Text>
           <Text style={styles.newArrivalsHeaderSeeAll}>See All</Text>
+        </View>
+
+        <View style={styles.newArrivalsProductsContainer}>
+          <MasonryList
+            data={[
+              {
+                uri: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+              {
+                uri: "https://images.pexels.com/photos/6153747/pexels-photo-6153747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+              {
+                uri: "https://images.pexels.com/photos/1478442/pexels-photo-1478442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+              {
+                uri: "https://images.pexels.com/photos/1306248/pexels-photo-1306248.jpeg?auto=compress&cs=tinysrgb&w=600",
+              },
+              {
+                uri: "https://images.pexels.com/photos/2048548/pexels-photo-2048548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+              {
+                uri: "https://images.pexels.com/photos/1374910/pexels-photo-1374910.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+              {
+                uri: "https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+              },
+            ]}
+            numColumns={2}
+            renderItem={({ item, index }) => (
+              <Product
+                key={index}
+                image={item.uri}
+                title="Product Title"
+                price="100"
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            spacing={width(2)}
+            containerWidth="100%"
+          />
         </View>
       </View>
     </ScrollView>
@@ -77,6 +120,7 @@ const styles = StyleSheet.create({
   // new arrivals
   newArrivalsContainer: {
     marginTop: height(4),
+    marginBottom: height(5),
   },
   newArrivalsHeader: {
     flexDirection: "row",
@@ -94,5 +138,11 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textDecorationLine: "underline",
     textDecorationColor: colors.primary,
+  },
+
+  newArrivalsProductsContainer: {
+    marginTop: height(3),
+    marginLeft: width(2),
+    marginBottom: height(5),
   },
 });

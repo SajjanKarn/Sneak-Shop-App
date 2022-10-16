@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
 
   productSize: {
     marginTop: height(2),
+    paddingBottom: height(2),
   },
   productSizeText: {
     fontSize: totalSize(2.2),

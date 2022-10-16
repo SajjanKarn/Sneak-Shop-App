@@ -13,13 +13,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { AntDesign } from "@expo/vector-icons";
 import colors from "./config/colors";
-import { height, totalSize } from "react-native-dimension";
+import { height, totalSize, width } from "react-native-dimension";
 
 import HomeScreen from "./src/screens/UserNavigator/HomeScreen";
 import SearchScreen from "./src/screens/UserNavigator/SearchScreen";
 import AddScreen from "./src/screens/UserNavigator/AddScreen";
 import ProfileScreen from "./src/screens/UserNavigator/ProfileScreen";
 import ProductDetails from "./src/screens/UserNavigator/ProductDetails";
+
+import AddButton from "./src/components/TabBarAddButton";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,6 +71,16 @@ const TabNavigator = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="pluscircleo" color={color} size={size} />
+          ),
+          tabBarButton: (props) => <AddButton {...props} />,
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={AddScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="shoppingcart" color={color} size={size} />
           ),
         }}
       />

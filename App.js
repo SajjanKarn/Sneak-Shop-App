@@ -40,6 +40,7 @@ const TabNavigator = () => {
           marginHorizontal: totalSize(2),
           elevation: 2,
         },
+        tabBarHideOnKeyboard: true,
       }}
       initialRouteName="Home"
     >

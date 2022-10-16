@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../config/colors";
@@ -9,7 +9,7 @@ export default function Product({
   price = 100,
 }) {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.5}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -22,7 +22,7 @@ export default function Product({
         <Text style={styles.productName}>{title}</Text>
         <Text style={styles.productPrice}>${price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     fontSize: totalSize(2.2),
     color: colors.primary,
     fontFamily: "Gilroy-Bold",
+    textTransform: "uppercase",
   },
   productPrice: {
     fontSize: totalSize(1.7),

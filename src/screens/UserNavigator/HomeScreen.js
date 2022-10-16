@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../../config/colors";
 
@@ -7,9 +7,57 @@ import SearchInput from "../../components/SearchInput";
 import FilterTabs from "../../components/FilterTabs";
 import Product from "../../components/Product";
 
-import MasonryList from "@react-native-seoul/masonry-list";
+import { useState } from "react";
 
 export default function HomeScreen() {
+  const [product, setProduct] = useState([
+    {
+      uri: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Nike Air Max 270",
+      price: 100,
+    },
+    {
+      uri: "https://images.pexels.com/photos/6153747/pexels-photo-6153747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "New Balance 997",
+      price: 120,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1478442/pexels-photo-1478442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Adidas Yeezy Boost 350",
+      price: 150,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1306248/pexels-photo-1306248.jpeg?auto=compress&cs=tinysrgb&w=600",
+      title: "Nike jordan 1",
+      price: 200,
+    },
+    {
+      uri: "https://images.pexels.com/photos/2048548/pexels-photo-2048548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Reebok Club C",
+      price: 80,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1374910/pexels-photo-1374910.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Converse Chuck Taylor",
+      price: 60,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "Jordan 1 Retro High",
+      price: 200,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1123985/pexels-photo-1123985.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      title: "ADIDAS YEEZY BOOST 350 V2",
+      price: 150,
+    },
+    {
+      uri: "https://images.pexels.com/photos/1895019/pexels-photo-1895019.jpeg",
+      title: "Nike jordan tarvis",
+      price: 500,
+    },
+  ]);
+
   return (
     <ScrollView style={styles.container}>
       {/* ======= header ======= */}
@@ -37,46 +85,25 @@ export default function HomeScreen() {
       <View style={styles.newArrivalsContainer}>
         <View style={styles.newArrivalsHeader}>
           <Text style={styles.newArrivalsHeaderText}>New Arrivals</Text>
+
           <Text style={styles.newArrivalsHeaderSeeAll}>See All</Text>
         </View>
 
         <View style={styles.newArrivalsProductsContainer}>
-          <MasonryList
-            data={[
-              {
-                uri: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-              {
-                uri: "https://images.pexels.com/photos/6153747/pexels-photo-6153747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-              {
-                uri: "https://images.pexels.com/photos/1478442/pexels-photo-1478442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-              {
-                uri: "https://images.pexels.com/photos/1306248/pexels-photo-1306248.jpeg?auto=compress&cs=tinysrgb&w=600",
-              },
-              {
-                uri: "https://images.pexels.com/photos/2048548/pexels-photo-2048548.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-              {
-                uri: "https://images.pexels.com/photos/1374910/pexels-photo-1374910.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-              {
-                uri: "https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-              },
-            ]}
+          <FlatList
+            data={product}
             numColumns={2}
             renderItem={({ item, index }) => (
               <Product
                 key={index}
                 image={item.uri}
-                title="Product Title"
-                price="100"
+                title={item.title}
+                price={item.price}
               />
             )}
             keyExtractor={(item, index) => index.toString()}
-            spacing={width(2)}
-            containerWidth="100%"
+            columnWrapperStyle={{ justifyContent: "space-between" }}
+            contentContainerStyle={{ paddingBottom: height(5) }}
           />
         </View>
       </View>
@@ -142,7 +169,6 @@ const styles = StyleSheet.create({
 
   newArrivalsProductsContainer: {
     marginTop: height(3),
-    marginLeft: width(2),
-    marginBottom: height(5),
+    marginLeft: width(1),
   },
 });

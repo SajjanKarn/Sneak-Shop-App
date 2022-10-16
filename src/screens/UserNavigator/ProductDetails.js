@@ -107,7 +107,7 @@ export default function ProductDetails() {
         </View>
       </ScrollView>
       <View style={styles.productCheckout}>
-        <View style={styles.productPrice}>
+        <View style={styles.productPriceCheckout}>
           <Text style={styles.productPriceTitle}>Price</Text>
           <Text style={styles.productPriceText}>$599</Text>
         </View>
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  productPrice: {
+  productPriceCheckout: {
     flex: 0.7,
   },
   productPriceTitle: {

@@ -5,7 +5,6 @@ import { useFonts } from "expo-font";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
-import HomeScreen from "./src/screens/UserNavigator/HomeScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -15,6 +14,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "./config/colors";
 import { height, totalSize } from "react-native-dimension";
+
+import HomeScreen from "./src/screens/UserNavigator/HomeScreen";
+import SearchScreen from "./src/screens/UserNavigator/SearchScreen";
+import AddScreen from "./src/screens/UserNavigator/AddScreen";
+import ProfileScreen from "./src/screens/UserNavigator/ProfileScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -41,7 +45,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={WelcomeScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" color={color} size={size} />
@@ -49,12 +53,31 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="search1" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Add"
+        component={AddScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="pluscircleo" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
         name="Profile"
-        component={WelcomeScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="user" color={color} size={size} />
           ),
+          tabBarBadge: 3,
         }}
       />
     </Tab.Navigator>

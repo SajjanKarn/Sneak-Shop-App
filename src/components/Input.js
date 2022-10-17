@@ -8,15 +8,18 @@ export default function Input({
   placeholder = "Enter your email",
   keyboardType = "default",
   secureTextEntry = false,
+  multiline = false,
+  ...otherProps
 }) {
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, multiline ? styles.multiline : null]}>
       <View style={styles.icon}>{icon}</View>
       <TextInput
-        style={styles.input}
         placeholder={placeholder}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
+        {...otherProps}
+        style={styles.input}
       />
     </View>
   );
@@ -25,7 +28,8 @@ export default function Input({
 const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
-    height: height(7),
+    // height: height(7),
+    paddingVertical: height(1.8),
     backgroundColor: "#F2F2F2",
     borderRadius: totalSize(3),
     paddingHorizontal: width(5),
@@ -35,11 +39,15 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   icon: {
-    marginRight: width(2),
+    paddingRight: width(2),
   },
   input: {
     flex: 1,
+    fontSize: totalSize(1.8),
     fontFamily: "SFPro-Regular",
-    fontSize: totalSize(2),
+  },
+  multiline: {
+    height: height(15),
+    textAlignVertical: "top",
   },
 });

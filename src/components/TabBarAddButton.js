@@ -1,6 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { width, height } from "react-native-dimension";
+import { height, totalSize } from "react-native-dimension";
 import colors from "../../config/colors";
 
 const AddButton = (props) => {
@@ -10,9 +10,11 @@ const AddButton = (props) => {
       {...props}
       style={{
         backgroundColor: colors.primary,
-        width: width(18),
-        height: width(18),
-        borderRadius: width(15),
+        // width: 60,
+        // height: 60,
+        width: totalSize(7.5),
+        height: totalSize(7.5),
+        borderRadius: totalSize(7.5),
         justifyContent: "center",
         alignItems: "center",
         position: "relative",

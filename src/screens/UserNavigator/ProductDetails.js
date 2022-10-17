@@ -71,24 +71,7 @@ export default function ProductDetails() {
                 adipiscing elit. Nulla vitae elit libero, a pharetra augue.
                 Donec id elit non mi porta gravida at eget metus. Lorem ipsum
                 dolor sit amet, consectetur adipiscing elit. Nulla vitae elit
-                libero, a pharetra augue. Donec id elit non mi porta gravida at
-                eget metus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Nulla vitae elit libero, a pharetra augue. Donec id elit
-                non mi porta gravida at eget metus. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Nulla vitae elit libero, a pharetra
-                augue. Donec id elit non mi porta gravida at eget metus. Lorem
-                ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae
-                elit libero, a pharetra augue. Donec id elit non mi porta
-                gravida at eget metus. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit. Nulla vitae elit libero, a pharetra augue.
-                Donec id elit non mi porta gravida at eget metus. Lorem ipsum
-                dolor sit amet, consectetur adipiscing elit. Nulla vitae elit
-                libero, a pharetra augue. Donec id elit non mi porta gravida at
-                eget metus. Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Nulla vitae elit libero, a pharetra augue. Donec id elit
-                non mi porta gravida at eget metus. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Nulla vitae elit libero, a pharetra
-                augue. Donec id elit non mi porta gravida at eget metus.
+                libero
               </Text>
             </View>
           </View>

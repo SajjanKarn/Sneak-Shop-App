@@ -1,4 +1,11 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../../config/colors";
 
@@ -10,6 +17,7 @@ import Product from "../../components/Product";
 import { useState } from "react";
 
 export default function HomeScreen() {
+  const [refreshing, setRefreshing] = useState(false);
   const [product, setProduct] = useState([
     {
       uri: "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -58,8 +66,26 @@ export default function HomeScreen() {
     },
   ]);
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={onRefresh}
+          progressBackgroundColor={colors.primary}
+          colors={[colors.white]}
+          progressViewOffset={80}
+        />
+      }
+    >
       {/* ======= header ======= */}
       <View style={styles.headerUserCartContainer}>
         <Feather name="align-left" size={25} color={colors.primary} />

@@ -143,7 +143,6 @@ const AuthNavigator = () => (
 
 const AuthRenderer = () => {
   const { user } = useContext(AuthContext);
-
   if (user) {
     return <UserAuthNavigator />;
   } else {
@@ -169,15 +168,15 @@ export default function App() {
   }
 
   return (
-    <ToastProvider>
-      <NavigationContainer>
-        <AuthContextProvider>
-          <View style={styles.container}>
+    <View style={styles.container}>
+      <ToastProvider>
+        <NavigationContainer>
+          <AuthContextProvider>
             <AuthRenderer />
-          </View>
-        </AuthContextProvider>
-      </NavigationContainer>
-    </ToastProvider>
+          </AuthContextProvider>
+        </NavigationContainer>
+      </ToastProvider>
+    </View>
   );
 }
 

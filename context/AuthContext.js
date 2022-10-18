@@ -3,26 +3,32 @@ import { createContext, useEffect, useState } from "react";
 import { useToast } from "react-native-toast-notifications";
 import colors from "../config/colors";
 import { auth } from "../config/firebase";
+import LoadingComponent from "../src/components/Loading";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const toast = useToast();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user?.emailVerified) {
         setUser(user);
+        setLoading(false);
       }
     });
 
+    setLoading(false);
     return unsubscribe;
   }, []);
 
   const login = async (email, password) => {
     try {
+      setLoading(true);
       const result = await auth.signInWithEmailAndPassword(email, password);
       if (!result.user.emailVerified) {
         toast.show("Please verify your email address", {
@@ -30,10 +36,12 @@ export const AuthContextProvider = ({ children }) => {
           placement: "top",
           duration: 3000,
         });
+        setLoading(false);
         return;
       }
 
       setUser(result.user);
+      setLoading(false);
       toast.show("Login Successful", {
         type: "success",
         placement: "top",
@@ -52,11 +60,13 @@ export const AuthContextProvider = ({ children }) => {
     const { email, password } = values;
 
     try {
+      setLoading(true);
       await auth.createUserWithEmailAndPassword(email, password);
       await auth.currentUser.updateProfile({
         displayName: values.name,
       });
       await auth.currentUser.sendEmailVerification();
+      setLoading(false);
 
       navigation.navigate("Login");
 
@@ -72,8 +82,10 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     try {
+      setLoading(true);
       await auth.signOut();
       setUser(null);
+      setLoading(false);
       toast.show("Logout Successful", {
         type: "success",
         placement: "top",
@@ -86,7 +98,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, setUser, login, register, logout }}>
-      {children}
+      {loading ? <LoadingComponent /> : children}
     </AuthContext.Provider>
   );
 };

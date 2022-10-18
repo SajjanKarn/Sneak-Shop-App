@@ -22,6 +22,7 @@
     "expo-status-bar": "~1.4.0",
     "firebase": "^9.12.1",
     "formik": "^2.2.9",
+    "lottie-react-native": "^5.1.4",
     "react": "18.0.0",
     "react-native": "0.69.6",
     "react-native-dimension": "^1.0.6",

@@ -11,6 +11,7 @@ import {
 import { width, height, totalSize } from "react-native-dimension";
 
 import colors from "../../../config/colors";
+import { auth } from "../../../config/firebase";
 import AuthContext from "../../../context/AuthContext";
 
 const Setting = ({
@@ -40,7 +41,10 @@ export default function ProfileScreen() {
           }}
           style={styles.userProfileImage}
         />
-        <Text style={styles.userProfileName}>Samantha Smith</Text>
+        <Text style={styles.userProfileName}>
+          {auth.currentUser?.displayName}
+        </Text>
+        <Text style={styles.userProfileEmail}>{auth.currentUser?.email}</Text>
       </View>
       <View style={styles.userSettings}>
         <Text style={styles.userSettingsText}>Settings</Text>
@@ -94,6 +98,12 @@ const styles = StyleSheet.create({
     fontFamily: "Gilroy-Bold",
     color: colors.primary,
     marginTop: height(2),
+  },
+  userProfileEmail: {
+    fontSize: totalSize(1.7),
+    fontFamily: "SFPro-Light",
+    color: colors.inActiveTabBarColor,
+    marginTop: height(0.5),
   },
 
   userSettings: {

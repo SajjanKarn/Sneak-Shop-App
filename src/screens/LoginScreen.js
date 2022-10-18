@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
                 keyboardType="email-address"
                 onChangeText={handleChange("email")}
                 value={values.email}
-                autocapitalize="none"
+                autoCapitalize="none"
               />
               {errors.email && <ErrorText error={errors.email} />}
               <Input
@@ -50,7 +50,7 @@ export default function LoginScreen({ navigation }) {
                 secureTextEntry={true}
                 onChangeText={handleChange("password")}
                 value={values.password}
-                autocapitalize="none"
+                autoCapitalize="none"
               />
               {errors.password && <ErrorText error={errors.password} />}
 

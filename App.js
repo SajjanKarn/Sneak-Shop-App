@@ -83,6 +83,11 @@ const TabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="shoppingcart" color={color} size={size} />
           ),
+          tabBarBadge: 3,
+          tabBarBadgeStyle: {
+            color: colors.white,
+            fontSize: totalSize(1.3),
+          },
         }}
       />
       <Tab.Screen
@@ -92,7 +97,6 @@ const TabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="user" color={color} size={size} />
           ),
-          tabBarBadge: 3,
         }}
       />
     </Tab.Navigator>

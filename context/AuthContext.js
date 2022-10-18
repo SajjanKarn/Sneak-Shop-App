@@ -29,6 +29,9 @@ export const AuthContextProvider = ({ children }) => {
 
     try {
       const result = await auth.createUserWithEmailAndPassword(email, password);
+      await auth.currentUser.updateProfile({
+        displayName: values.name,
+      });
     } catch (error) {
       console.log(error);
     }

@@ -23,6 +23,7 @@ import ProductDetails from "./src/screens/UserNavigator/ProductDetails";
 
 import AddButton from "./src/components/TabBarAddButton";
 import AuthContext, { AuthContextProvider } from "./context/AuthContext";
+import { ToastProvider } from "react-native-toast-notifications";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -168,13 +169,15 @@ export default function App() {
   }
 
   return (
-    <AuthContextProvider>
+    <ToastProvider>
       <NavigationContainer>
-        <View style={styles.container}>
-          <AuthRenderer />
-        </View>
+        <AuthContextProvider>
+          <View style={styles.container}>
+            <AuthRenderer />
+          </View>
+        </AuthContextProvider>
       </NavigationContainer>
-    </AuthContextProvider>
+    </ToastProvider>
   );
 }
 

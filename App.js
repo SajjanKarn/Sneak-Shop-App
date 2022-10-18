@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 
@@ -22,6 +22,7 @@ import ProfileScreen from "./src/screens/UserNavigator/ProfileScreen";
 import ProductDetails from "./src/screens/UserNavigator/ProductDetails";
 
 import AddButton from "./src/components/TabBarAddButton";
+import AuthContext, { AuthContextProvider } from "./context/AuthContext";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -135,9 +136,17 @@ const AuthNavigator = () => (
   </Stack.Navigator>
 );
 
-export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+const AuthRenderer = () => {
+  const { user } = useContext(AuthContext);
 
+  if (user) {
+    return <UserAuthNavigator />;
+  } else {
+    return <AuthNavigator />;
+  }
+};
+
+export default function App() {
   let [fontsLoaded] = useFonts({
     "SFPro-Light": require("./assets/fonts/SFPRODISPLAY-LIGHT.ttf"),
     "SFPro-Regular": require("./assets/fonts/SFPRODISPLAY-REGULAR.ttf"),
@@ -155,11 +164,13 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        {isAuthenticated ? <UserAuthNavigator /> : <AuthNavigator />}
-      </View>
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <AuthRenderer />
+        </View>
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 

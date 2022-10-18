@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useContext } from "react";
 import {
   Image,
   ScrollView,
@@ -10,13 +11,15 @@ import {
 import { width, height, totalSize } from "react-native-dimension";
 
 import colors from "../../../config/colors";
+import AuthContext from "../../../context/AuthContext";
 
 const Setting = ({
   title = "Setting",
   icon = <AntDesign name="user" size={25} color={colors.primary} />,
+  onPress,
 }) => {
   return (
-    <TouchableNativeFeedback>
+    <TouchableNativeFeedback onPress={onPress}>
       <View style={styles.settingContainer}>
         {icon}
         <Text style={styles.title}>{title}</Text>
@@ -26,6 +29,8 @@ const Setting = ({
 };
 
 export default function ProfileScreen() {
+  const { logout } = useContext(AuthContext);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.userProfileContainer}>
@@ -49,6 +54,7 @@ export default function ProfileScreen() {
           <Setting
             icon={<AntDesign name="logout" size={25} color={colors.primary} />}
             title="Logout"
+            onPress={() => logout()}
           />
         </View>
       </View>

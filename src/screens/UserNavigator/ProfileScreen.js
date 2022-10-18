@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import {
   Image,
@@ -30,6 +31,7 @@ const Setting = ({
 };
 
 export default function ProfileScreen() {
+  const navigation = useNavigation();
   const { logout } = useContext(AuthContext);
 
   return (
@@ -54,6 +56,7 @@ export default function ProfileScreen() {
           <Setting
             icon={<AntDesign name="lock" size={25} color={colors.primary} />}
             title="Change Password"
+            onPress={() => navigation.navigate("ChangePassword")}
           />
           <Setting
             icon={<AntDesign name="logout" size={25} color={colors.primary} />}

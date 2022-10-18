@@ -24,6 +24,7 @@ import ProductDetails from "./src/screens/UserNavigator/ProductDetails";
 import AddButton from "./src/components/TabBarAddButton";
 import AuthContext, { AuthContextProvider } from "./context/AuthContext";
 import { ToastProvider } from "react-native-toast-notifications";
+import ChangePassword from "./src/screens/UserNavigator/ChangePassword";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -112,10 +113,16 @@ const UserAuthNavigator = () => {
         component={TabNavigator}
         options={{ headerShown: false }}
       />
+
       <Stack.Screen
         name="ProductDetails"
         component={ProductDetails}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{ headerTitle: "" }}
       />
     </Stack.Navigator>
   );

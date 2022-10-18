@@ -14,6 +14,8 @@ import SearchInput from "../../components/SearchInput";
 import FilterTabs from "../../components/FilterTabs";
 import Product from "../../components/Product";
 
+import { FlashList } from "@shopify/flash-list";
+
 import { useState } from "react";
 
 export default function HomeScreen() {
@@ -116,9 +118,8 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.newArrivalsProductsContainer}>
-          <FlatList
+          <FlashList
             data={product}
-            numColumns={2}
             renderItem={({ item, index }) => (
               <Product
                 key={index}
@@ -127,9 +128,14 @@ export default function HomeScreen() {
                 price={item.price}
               />
             )}
-            keyExtractor={(item, index) => index.toString()}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-            contentContainerStyle={{ paddingBottom: height(5) }}
+            keyExtractor={(item) => item.title}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: totalSize(5),
+            }}
+            estimatedItemSize={261}
           />
         </View>
       </View>
@@ -194,7 +200,10 @@ const styles = StyleSheet.create({
   },
 
   newArrivalsProductsContainer: {
+    width: "100%",
+    height: "100%",
     marginTop: height(3),
-    marginLeft: width(1),
+    marginHorizontal: width(2),
+    overflow: "hidden",
   },
 });

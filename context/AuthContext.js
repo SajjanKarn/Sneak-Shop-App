@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import firebase from "../config/firebase";
 import { auth } from "../config/firebase";
 
 const AuthContext = createContext();
@@ -20,8 +19,6 @@ export const AuthContextProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-
-      console.log(result);
     } catch (error) {
       console.log(error);
     }

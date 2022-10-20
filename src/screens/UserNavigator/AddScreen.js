@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { width, height, totalSize } from "react-native-dimension";
@@ -18,11 +17,33 @@ import colors from "../../../config/colors";
 
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import ErrorText from "../../components/ErrorText";
+import LoadingComponent from "../../components/Loading";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 
+import { firestore } from "../../../config/firebase";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useToast } from "react-native-toast-notifications";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required().min(4).label("Name"),
+  price: Yup.number().required().min(1).label("Price"),
+  description: Yup.string().required().min(10).label("Description"),
+});
+
 export default function AddScreen() {
+  const toast = useToast();
+
   const [image, setImage] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const db = firestore.collection("products");
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -45,69 +66,137 @@ export default function AddScreen() {
     setImage(newImage);
   };
 
+  const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      const result = await db.add({
+        name: values.name,
+        price: values.price,
+        description: values.description,
+      });
+      setLoading(false);
+      toast.show("Product added successfully", {
+        type: "success",
+        placement: "top",
+      });
+    } catch (error) {
+      setLoading(false);
+      toast.show("Something went wrong", {
+        type: "danger",
+        duration: 3000,
+        placement: "top",
+      });
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.headerTitle}>Add Product</Text>
 
       <View style={styles.formContainer}>
-        <Input
-          placeholder="Product Name"
-          style={styles.input}
-          placeholderTextColor={colors.grey}
-          icon={<AntDesign name="book" size={20} color={colors.grey} />}
-        />
-        <Input
-          placeholder="Product Price"
-          style={styles.input}
-          placeholderTextColor={colors.grey}
-          keyboardType="numeric"
-          icon={<Feather name="dollar-sign" size={20} color={colors.grey} />}
-        />
-        <Input
-          placeholder="Product Description"
-          style={styles.input}
-          placeholderTextColor={colors.grey}
-          multiline
-          numberOfLines={4}
-          icon={<Entypo name="text" size={20} color={colors.grey} />}
-        />
-      </View>
-      <View style={styles.imagesContainer}>
-        {image.map(
-          (
-            img,
-            index // Loop through the images and render them to the screen
-          ) => (
-            <View key={index} style={styles.imageContainer}>
-              <Image source={{ uri: img }} style={styles.image} key={index} />
-
-              <MaterialCommunityIcons
-                name="delete"
-                size={18}
-                color={colors.red}
-                style={styles.deleteButton}
-                onPress={() => deleteImage(index)}
+        <Formik
+          initialValues={{
+            name: "",
+            price: "",
+            description: "",
+          }}
+          onSubmit={(values) => {
+            handleSubmit(values);
+          }}
+          validationSchema={validationSchema}
+        >
+          {({
+            values,
+            handleChange,
+            errors,
+            setFieldTouched,
+            touched,
+            isValid,
+            handleSubmit,
+          }) => (
+            <>
+              <Input
+                placeholder="Product Name"
+                style={styles.input}
+                placeholderTextColor={colors.grey}
+                icon={<AntDesign name="book" size={20} color={colors.grey} />}
+                onChangeText={handleChange("name")}
+                onBlur={() => setFieldTouched("name")}
+                value={values.name}
               />
-            </View>
-          )
-        )}
+              {errors.name && <ErrorText error={errors.name} />}
+              <Input
+                placeholder="Product Price"
+                style={styles.input}
+                placeholderTextColor={colors.grey}
+                keyboardType="numeric"
+                icon={
+                  <Feather name="dollar-sign" size={20} color={colors.grey} />
+                }
+                onChangeText={handleChange("price")}
+                onBlur={() => setFieldTouched("price")}
+                value={values.price}
+              />
+              {errors.price && <ErrorText error={errors.price} />}
+              <Input
+                placeholder="Product Description"
+                style={styles.input}
+                placeholderTextColor={colors.grey}
+                multiline
+                numberOfLines={4}
+                icon={<Entypo name="text" size={20} color={colors.grey} />}
+                onChangeText={handleChange("description")}
+                onBlur={() => setFieldTouched("description")}
+                value={values.description}
+              />
+              {errors.description && <ErrorText error={errors.description} />}
+              <View style={styles.imagesContainer}>
+                {image.map(
+                  (
+                    img,
+                    index // Loop through the images and render them to the screen
+                  ) => (
+                    <View key={index} style={styles.imageContainer}>
+                      <Image
+                        source={{ uri: img }}
+                        style={styles.image}
+                        key={index}
+                      />
 
-        {image.length < 3 && (
-          <TouchableOpacity onPress={pickImage} style={styles.imageSelect}>
-            <MaterialCommunityIcons
-              name="camera"
-              size={24}
-              color={colors.primary}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-      {image.length === 3 && (
-        <Text style={styles.imageLimit}>You can only add 3 images</Text>
-      )}
+                      <MaterialCommunityIcons
+                        name="delete"
+                        size={18}
+                        color={colors.red}
+                        style={styles.deleteButton}
+                        onPress={() => deleteImage(index)}
+                      />
+                    </View>
+                  )
+                )}
 
-      <View style={styles.buttonContainer}>
-        <Button>Add Product</Button>
+                {image.length < 3 && (
+                  <TouchableOpacity
+                    onPress={pickImage}
+                    style={styles.imageSelect}
+                  >
+                    <MaterialCommunityIcons
+                      name="camera"
+                      size={24}
+                      color={colors.primary}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+              {image.length === 3 && (
+                <Text style={styles.imageLimit}>You can only add 3 images</Text>
+              )}
+
+              <View style={styles.buttonContainer}>
+                <Button onPress={handleSubmit}>Add Product</Button>
+              </View>
+            </>
+          )}
+        </Formik>
       </View>
     </ScrollView>
   );
@@ -157,8 +246,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   deleteButton: {
-    width: width(8),
-    height: width(8),
+    width: totalSize(3.5),
+    height: totalSize(3.5),
     position: "relative",
     right: width(5),
     backgroundColor: colors.white,

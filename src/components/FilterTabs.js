@@ -1,10 +1,15 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { height, totalSize, width } from "react-native-dimension";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import colors from "../../config/colors";
 
 const Tabs = ({ text = "All Product", active = false }) => (
-  <TouchableOpacity>
+  <TouchableOpacity activeOpacity={0.4}>
     <View style={[styles.tab, active ? styles.activeTab : null]}>
       <Text style={[styles.tabText, active ? styles.activeTabText : null]}>
         {text}

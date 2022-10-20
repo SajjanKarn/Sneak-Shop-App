@@ -54,6 +54,12 @@ export default function ProfileScreen() {
         <View style={styles.userSettingsContainer}>
           <Setting title="Edit Profile" />
           <Setting
+            title="My Cart"
+            icon={
+              <AntDesign name="shoppingcart" size={25} color={colors.primary} />
+            }
+          />
+          <Setting
             icon={<AntDesign name="lock" size={25} color={colors.primary} />}
             title="Change Password"
             onPress={() => navigation.navigate("ChangePassword")}

@@ -59,12 +59,18 @@ export default function RegisterScreen({ navigation }) {
     const response = await fetch(profileImage);
     const blob = await response.blob();
     const fileName = profileImage.substring(profileImage.lastIndexOf("/") + 1);
-    const ref = storage.ref().child(fileName).put(blob);
+    const ref = storage
+      .ref()
+      .child("profileImages/" + fileName)
+      .put(blob);
 
     try {
       await ref;
 
-      const url = await storage.ref().child(fileName).getDownloadURL();
+      const url = await storage
+        .ref("profileImages")
+        .child(fileName)
+        .getDownloadURL();
 
       setProfileUrl(url);
       setUploading(false);

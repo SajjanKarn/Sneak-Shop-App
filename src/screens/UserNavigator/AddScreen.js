@@ -28,6 +28,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useToast } from "react-native-toast-notifications";
 
+import randomatic from "randomatic";
+
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(4).label("Name"),
   price: Yup.number().required().min(1).label("Price"),
@@ -42,7 +44,7 @@ export default function AddScreen() {
   const db = firestore.collection("products");
 
   if (loading) {
-    return <LoadingComponent />;
+    return <LoadingComponent title="Uploading..." />;
   }
 
   const pickImage = async () => {
@@ -66,6 +68,46 @@ export default function AddScreen() {
     setImage(newImage);
   };
 
+  const uploadImages = async () => {
+    try {
+      setLoading(true);
+      const response = await Promise.all(
+        image.map((item) => {
+          return fetch(item);
+        })
+      );
+      const blob = await Promise.all(
+        response.map((item) => {
+          return item.blob();
+        })
+      );
+      const ref = await Promise.all(
+        blob.map((item) => {
+          return firebase
+            .storage()
+            .ref()
+            .child("products/" + randomatic("Aa0", 10));
+        })
+      );
+      const upload = await Promise.all(
+        ref.map((item, i) => {
+          return item.put(blob[i]);
+        })
+      );
+      const download = await Promise.all(
+        upload.map((item) => {
+          return item.ref.getDownloadURL();
+        })
+      );
+      setLoading(false);
+      setImage([]);
+      return download;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (values) => {
     try {
       const timpeStamp = firebase.firestore.FieldValue.serverTimestamp;
@@ -76,6 +118,7 @@ export default function AddScreen() {
         price: values.price,
         description: values.description,
         createdAt: timpeStamp(),
+        images: await uploadImages(),
       });
       setLoading(false);
       toast.show("Product added successfully", {

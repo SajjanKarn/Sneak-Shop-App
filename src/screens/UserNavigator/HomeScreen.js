@@ -105,9 +105,10 @@ export default function HomeScreen() {
               renderItem={({ item, index }) => (
                 <Product
                   key={index}
-                  // image={item.uri}
+                  image={item.images[0]}
                   title={item.name}
                   price={item.price}
+                  id={item.id}
                 />
               )}
               keyExtractor={(item) => item.id}

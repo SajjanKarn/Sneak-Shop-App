@@ -5,6 +5,7 @@ import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../config/colors";
 
 export default function Product({
+  id,
   image = "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
   title = "Nike Air Max 270",
   price = 100,
@@ -15,7 +16,11 @@ export default function Product({
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.5}
-      onPress={() => navigate.navigate("ProductDetails")}
+      onPress={() =>
+        navigate.navigate("ProductDetails", {
+          id,
+        })
+      }
     >
       <View style={styles.imageContainer}>
         <Image

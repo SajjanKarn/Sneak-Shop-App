@@ -39,7 +39,7 @@ export default function ProfileScreen() {
       <View style={styles.userProfileContainer}>
         <Image
           source={{
-            uri: "https://images.pexels.com/photos/884979/pexels-photo-884979.jpeg",
+            uri: auth.currentUser.photoURL,
           }}
           style={styles.userProfileImage}
         />
@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   userProfileImage: {
-    width: width(30),
-    height: width(30),
-    borderRadius: width(15),
+    width: totalSize(13),
+    height: totalSize(13),
+    borderRadius: totalSize(13),
   },
   userProfileName: {
     fontSize: totalSize(3),

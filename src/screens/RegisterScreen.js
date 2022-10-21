@@ -1,16 +1,26 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { width, height, totalSize } from "react-native-dimension";
 import Input from "../components/Input";
 
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import Button from "../components/Button";
 
 import { Formik } from "formik";
 import * as yup from "yup";
 import ErrorText from "../components/ErrorText";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
+import * as ImagePicker from "expo-image-picker";
+import { storage } from "../../config/firebase";
+import { useToast } from "react-native-toast-notifications";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required().min(4).label("Name"),
@@ -19,15 +29,55 @@ const validationSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .required()
-    .min(4)
-    .label("Confirm Password")
-    .test("passwords-match", "Passwords must match", function (value) {
-      return this.parent.password === value;
-    }),
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .label("Confirm Password"),
 });
 
 export default function RegisterScreen({ navigation }) {
   const { register } = useContext(AuthContext);
+  const toast = useToast();
+
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileUrl, setProfileUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfileImage(result.uri);
+    }
+  };
+
+  const uploadImage = async () => {
+    setUploading(true);
+    const response = await fetch(profileImage);
+    const blob = await response.blob();
+    const fileName = profileImage.substring(profileImage.lastIndexOf("/") + 1);
+    const ref = storage.ref().child(fileName).put(blob);
+
+    try {
+      await ref;
+
+      const url = await storage.ref().child(fileName).getDownloadURL();
+
+      setProfileUrl(url);
+      setUploading(false);
+      return url;
+    } catch (error) {
+      console.log("Something went wrong", error);
+      toast.show("Something went wrong, please try again later", {
+        type: "danger",
+        placement: "top",
+      });
+      setUploading(false);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -36,10 +86,20 @@ export default function RegisterScreen({ navigation }) {
       </View>
       <View style={styles.formContainer}>
         <Formik
-          initialValues={{ name: "", email: "", password: "" }}
-          onSubmit={(values) => {
-            console.log(values);
-            register(values);
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          }}
+          onSubmit={async (values) => {
+            if (profileImage) {
+              const url = await uploadImage();
+              console.log(url, "fjdaklfjsldkafjkl;f");
+              register(values, url);
+            } else {
+              alert("Please select a profile image");
+            }
           }}
           validationSchema={validationSchema}
         >
@@ -52,6 +112,27 @@ export default function RegisterScreen({ navigation }) {
             touched,
           }) => (
             <>
+              {profileImage === null && (
+                <>
+                  <TouchableOpacity
+                    style={styles.imageContainer}
+                    onPress={pickImage}
+                  >
+                    <MaterialIcons
+                      name="add-a-photo"
+                      size={24}
+                      color={colors.white}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.imageText}>Add Profile Image</Text>
+                </>
+              )}
+
+              {profileImage && (
+                <TouchableOpacity onPress={pickImage}>
+                  <Image source={{ uri: profileImage }} style={styles.image} />
+                </TouchableOpacity>
+              )}
               <Input
                 placeholder="Sajjan Karna"
                 onChangeText={handleChange("name")}
@@ -98,7 +179,9 @@ export default function RegisterScreen({ navigation }) {
               )}
 
               <View style={styles.buttonContainer}>
-                <Button onPress={handleSubmit}>Register</Button>
+                <Button onPress={handleSubmit} loading={uploading}>
+                  Register
+                </Button>
               </View>
             </>
           )}
@@ -123,7 +206,7 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: height(5),
+    marginTop: height(1),
   },
   headerText: {
     fontFamily: "Gilroy-Bold",
@@ -131,16 +214,40 @@ const styles = StyleSheet.create({
   },
 
   formContainer: {
-    marginTop: height(7),
+    marginTop: height(2),
   },
+  imageContainer: {
+    width: totalSize(13),
+    height: totalSize(13),
+    borderRadius: totalSize(10),
+    backgroundColor: colors.inActiveTabBarColor,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: height(1),
+  },
+  imageText: {
+    fontFamily: "Gilroy-Bold",
+    fontSize: totalSize(1.5),
+    color: colors.grey,
+    alignSelf: "center",
+    marginBottom: height(1),
+  },
+  image: {
+    width: totalSize(13),
+    height: totalSize(13),
+    borderRadius: totalSize(10),
+    alignSelf: "center",
+    marginBottom: height(1),
+  },
+
   buttonContainer: {
     marginTop: height(3),
   },
-
   footer: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: height(5),
+    marginTop: height(3),
   },
   forgotPassword: {
     fontFamily: "SFPro-Light",

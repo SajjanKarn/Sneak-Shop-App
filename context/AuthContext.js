@@ -53,10 +53,11 @@ export const AuthContextProvider = ({ children }) => {
         placement: "top",
         duration: 1500,
       });
+      setLoading(false);
     }
   };
 
-  const register = async (values) => {
+  const register = async (values, url) => {
     const { email, password } = values;
 
     try {
@@ -64,6 +65,7 @@ export const AuthContextProvider = ({ children }) => {
       await auth.createUserWithEmailAndPassword(email, password);
       await auth.currentUser.updateProfile({
         displayName: values.name,
+        photoURL: url,
       });
       await auth.currentUser.sendEmailVerification();
       setLoading(false);
@@ -76,7 +78,11 @@ export const AuthContextProvider = ({ children }) => {
         duration: 1500,
       });
     } catch (error) {
-      console.log(error);
+      toast.show(error.message, {
+        type: "danger",
+        placement: "top",
+      });
+      setLoading(false);
     }
   };
 

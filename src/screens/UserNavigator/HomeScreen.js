@@ -67,6 +67,7 @@ export default function HomeScreen() {
           progressViewOffset={80}
         />
       }
+      showsVerticalScrollIndicator={false}
     >
       {/* ======= header ======= */}
       <View style={styles.headerUserCartContainer}>

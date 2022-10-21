@@ -95,7 +95,6 @@ export default function RegisterScreen({ navigation }) {
           onSubmit={async (values) => {
             if (profileImage) {
               const url = await uploadImage();
-              console.log(url, "fjdaklfjsldkafjkl;f");
               register(values, url);
             } else {
               alert("Please select a profile image");

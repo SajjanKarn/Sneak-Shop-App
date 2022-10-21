@@ -99,6 +99,12 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.newArrivalsProductsContainer}>
+          {product.length === 0 && (
+            <View style={styles.noProductsContainer}>
+              <Text style={styles.noProductsText}>No Products</Text>
+            </View>
+          )}
+
           {product.length > 0 && (
             <FlashList
               data={product}
@@ -189,5 +195,14 @@ const styles = StyleSheet.create({
     marginTop: height(3),
     marginHorizontal: width(2),
     overflow: "hidden",
+  },
+  noProductsContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noProductsText: {
+    fontSize: totalSize(2),
+    fontFamily: "SFPro-Medium",
+    color: colors.primary,
   },
 });

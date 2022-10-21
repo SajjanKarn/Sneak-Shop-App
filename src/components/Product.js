@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginTop: height(1),
   },
   productName: {
-    fontSize: totalSize(2.2),
+    fontSize: totalSize(2),
     color: colors.primary,
     fontFamily: "Gilroy-Bold",
     textTransform: "uppercase",

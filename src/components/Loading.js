@@ -3,14 +3,14 @@ import Lottie from "lottie-react-native";
 import colors from "../../config/colors";
 import { totalSize } from "react-native-dimension";
 
-export default function LoadingComponent({ size, title }) {
+export default function LoadingComponent({ title }) {
   return (
     <View style={styles.container}>
       <Lottie
         autoPlay
         loop
         source={require("../../assets/animations/loader.json")}
-        style={[styles.loader, { width: size, height: size }]}
+        style={[styles.loader]}
       />
 
       {title && <Text style={styles.title}>{title}</Text>}
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   loader: {
-    width: totalSize(15),
-    height: totalSize(15),
+    width: totalSize(25),
+    height: totalSize(25),
   },
   title: {
     fontFamily: "Gilroy-Medium",

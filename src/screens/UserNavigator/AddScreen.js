@@ -22,7 +22,7 @@ import LoadingComponent from "../../components/Loading";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 
-import firebase, { firestore } from "../../../config/firebase";
+import firebase, { auth, firestore } from "../../../config/firebase";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -55,8 +55,6 @@ export default function AddScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       setImage([...image, result.uri]);
@@ -119,6 +117,7 @@ export default function AddScreen() {
         description: values.description,
         createdAt: timpeStamp(),
         images: await uploadImages(),
+        postedBy: auth.currentUser.uid,
       });
       setLoading(false);
       toast.show("Product added successfully", {

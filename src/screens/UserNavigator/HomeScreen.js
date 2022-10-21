@@ -24,37 +24,43 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
   const dbRef = firestore.collection("products");
-  useEffect(() => {
-    setLoading(true);
-    const unsubscribe = dbRef.onSnapshot((querySnapshot) => {
-      const products = [];
-      querySnapshot.forEach((doc) => {
-        products.push({ ...doc.data(), id: doc.id });
-      });
-      setProduct(products);
-      setLoading(false);
-    });
 
+  const handleSnapShotChange = (querySnapshot) => {
+    setLoading(true);
+    const products = [];
+    querySnapshot.forEach((doc) => {
+      products.push({ ...doc.data(), id: doc.id });
+    });
+    setProduct(products);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const unsubscribe = dbRef
+      .orderBy("createdAt", "desc")
+      .onSnapshot(handleSnapShotChange);
     return unsubscribe;
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    const unsubscribe = dbRef
+      .orderBy("createdAt", "desc")
+      .onSnapshot(handleSnapShotChange);
+    setRefreshing(false);
+    return unsubscribe;
+  };
 
   if (loading) {
     return <LoadingComponent />;
   }
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  };
 
   return (
     <ScrollView
       style={styles.container}
       refreshControl={
         <RefreshControl
-          refreshing={false}
+          refreshing={refreshing}
           onRefresh={onRefresh}
           progressBackgroundColor={colors.primary}
           colors={[colors.white]}

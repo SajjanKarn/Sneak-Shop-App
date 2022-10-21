@@ -22,7 +22,7 @@ import LoadingComponent from "../../components/Loading";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 
-import { firestore } from "../../../config/firebase";
+import firebase, { firestore } from "../../../config/firebase";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -68,11 +68,14 @@ export default function AddScreen() {
 
   const handleSubmit = async (values) => {
     try {
+      const timpeStamp = firebase.firestore.FieldValue.serverTimestamp;
+
       setLoading(true);
       const result = await db.add({
         name: values.name,
         price: values.price,
         description: values.description,
+        createdAt: timpeStamp(),
       });
       setLoading(false);
       toast.show("Product added successfully", {

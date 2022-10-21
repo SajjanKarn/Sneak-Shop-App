@@ -1,6 +1,13 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Button from "../../components/Button";
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../../config/colors";
@@ -12,6 +19,7 @@ import LoadingComponent from "../../components/Loading";
 export default function ProductDetails({ route }) {
   const navigation = useNavigation();
   const [product, setProduct] = useState({});
+  const [productActiveImage, setProductActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
 
   // get the product id from the route params
@@ -23,6 +31,7 @@ export default function ProductDetails({ route }) {
     dbRef.get().then((doc) => {
       if (doc.exists) {
         setProduct(doc.data());
+        setProductActiveImage(doc.data().images[0]);
         setLoading(false);
       } else {
         console.log("No such document!");
@@ -61,7 +70,7 @@ export default function ProductDetails({ route }) {
             <Image
               style={styles.image}
               source={{
-                uri: product.images[0],
+                uri: productActiveImage,
               }}
             />
           )}
@@ -69,13 +78,27 @@ export default function ProductDetails({ route }) {
             {!product.images
               ? null
               : product.images.map((image, index) => (
-                  <Image
+                  <TouchableOpacity
                     key={index}
-                    style={styles.productImageChoiceImage}
-                    source={{
-                      uri: image,
-                    }}
-                  />
+                    activeOpacity={0.5}
+                    onPress={() => setProductActiveImage(image)}
+                  >
+                    <Image
+                      style={[
+                        styles.productImageChoiceImage,
+                        {
+                          borderWidth: 2,
+                          borderColor:
+                            image === productActiveImage
+                              ? colors.primary
+                              : colors.white,
+                        },
+                      ]}
+                      source={{
+                        uri: image,
+                      }}
+                    />
+                  </TouchableOpacity>
                 ))}
           </View>
           <View style={styles.productDetails}>

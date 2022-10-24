@@ -8,6 +8,7 @@ export default function SearchInput({
   onChangeText,
   value,
   style,
+  ...otherProps
 }) {
   return (
     <View style={[styles.container, style]}>
@@ -16,6 +17,7 @@ export default function SearchInput({
         onChangeText={onChangeText}
         value={value}
         style={[styles.input, style]}
+        {...otherProps}
       />
       <View style={styles.searchIcon}>
         <AntDesign name="search1" size={20} color={colors.black} />

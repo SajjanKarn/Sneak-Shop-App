@@ -10,7 +10,7 @@ export default function CartScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.title}>Your Cart</Text>
+      {/* <Text style={styles.title}>Your Cart</Text> */}
       {cart.length > 0 ? (
         <>
           <View style={styles.cartContainer}>
@@ -49,25 +49,23 @@ const styles = StyleSheet.create({
     fontSize: totalSize(2.2),
     color: colors.inActiveTabBarColor,
     textAlign: "center",
+    marginTop: height(10),
     fontFamily: "SFPro-Medium",
   },
-
-  title: {
-    fontSize: totalSize(3),
-    fontFamily: "Gilroy-Bold",
-    color: colors.primary,
-    marginTop: height(2),
-  },
-
+  // title: {
+  //   fontSize: totalSize(3),
+  //   fontFamily: "Gilroy-Bold",
+  //   color: colors.primary,
+  //   marginTop: height(2),
+  // },
   cartContainer: {
     marginTop: height(2),
   },
-
   cartTotal: {
-    marginTop: height(2),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: height(3),
   },
   cartTotalText: {
     fontSize: totalSize(2.5),

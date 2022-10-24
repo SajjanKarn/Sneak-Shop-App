@@ -6,12 +6,12 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "./config/colors";
 import { height, totalSize, width } from "react-native-dimension";
 
@@ -32,6 +32,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const navigation = useNavigation();
   const { cart } = useContext(CartContext);
   return (
     <Tab.Navigator
@@ -85,6 +86,29 @@ const TabNavigator = () => {
         name="Cart"
         component={CartScreen}
         options={{
+          headerShown: true,
+          headerTitle: "Your Cart",
+          headerTitleStyle: {
+            color: colors.primary,
+            fontSize: totalSize(2.5),
+            fontFamily: "Gilroy-Bold",
+          },
+          headerLeft: () => {
+            // back button
+
+            return (
+              <AntDesign
+                name="arrowleft"
+                size={totalSize(2.5)}
+                color={colors.primary}
+                style={{ marginLeft: totalSize(2) }}
+                onPress={() => navigation.goBack()}
+              />
+            );
+          },
+          tabBarStyle: {
+            display: "none",
+          },
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="shoppingcart" color={color} size={size} />
           ),

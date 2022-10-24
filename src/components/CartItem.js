@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
   cartItemImage: {
     width: width(30),
     height: height(15),
-    backgroundColor: colors.primary,
     borderRadius: 5,
   },
   cartItemDetails: {
@@ -76,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: totalSize(2.2),
     fontFamily: "Gilroy-Bold",
     color: colors.primary,
+    textTransform: "uppercase",
   },
   cartItemPrice: {
     fontSize: totalSize(2),

@@ -22,7 +22,7 @@ export const CartContextProvider = ({ children }) => {
       toast.show("Added to cart", {
         type: "success",
         placement: "top",
-        duration: 2000,
+        duration: 700,
       });
     }
   };
@@ -33,7 +33,7 @@ export const CartContextProvider = ({ children }) => {
     toast.show("Removed from cart", {
       type: "success",
       placement: "top",
-      duration: 2000,
+      duration: 700,
     });
   };
 

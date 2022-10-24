@@ -4,4 +4,6 @@ export default colors = {
   grey: "#a6a6a6",
   inActiveTabBarColor: "#748c94",
   red: "#FF0000",
+  lightGreen: "#d4edda",
+  lightRed: "#f8d7da",
 };

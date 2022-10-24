@@ -25,11 +25,14 @@ import AddButton from "./src/components/TabBarAddButton";
 import AuthContext, { AuthContextProvider } from "./context/AuthContext";
 import { ToastProvider } from "react-native-toast-notifications";
 import ChangePassword from "./src/screens/UserNavigator/ChangePassword";
+import CartScreen from "./src/screens/UserNavigator/CartScreen";
+import CartContext, { CartContextProvider } from "./context/CartContext";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const { cart } = useContext(CartContext);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -80,12 +83,12 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Cart"
-        component={AddScreen}
+        component={CartScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="shoppingcart" color={color} size={size} />
           ),
-          tabBarBadge: 3,
+          tabBarBadge: cart.length,
           tabBarBadgeStyle: {
             color: colors.white,
             fontSize: totalSize(1.3),
@@ -151,7 +154,11 @@ const AuthNavigator = () => (
 const AuthRenderer = () => {
   const { user } = useContext(AuthContext);
   if (user) {
-    return <UserAuthNavigator />;
+    return (
+      <CartContextProvider>
+        <UserAuthNavigator />
+      </CartContextProvider>
+    );
   } else {
     return <AuthNavigator />;
   }

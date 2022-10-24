@@ -112,6 +112,7 @@ export default function AddScreen() {
 
       setLoading(true);
       const result = await db.add({
+        id: randomatic("Aa0", 10),
         name: values.name,
         price: values.price,
         description: values.description,

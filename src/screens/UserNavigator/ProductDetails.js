@@ -12,12 +12,17 @@ import Button from "../../components/Button";
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../../config/colors";
 
-import { useEffect, useState } from "react";
-import { firestore } from "../../../config/firebase";
+import { useContext, useEffect, useState } from "react";
+import firebase, { auth, firestore } from "../../../config/firebase";
 import LoadingComponent from "../../components/Loading";
+import { useToast } from "react-native-toast-notifications";
+import CartContext from "../../../context/CartContext";
 
 export default function ProductDetails({ route }) {
+  const toast = useToast();
   const navigation = useNavigation();
+  const { addToCart } = useContext(CartContext);
+
   const [product, setProduct] = useState({});
   const [productActiveImage, setProductActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -45,6 +50,13 @@ export default function ProductDetails({ route }) {
     return unsubscribe;
   }, []);
 
+  const handleFavorite = async (id) => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (loading) {
     return <LoadingComponent />;
   }
@@ -62,7 +74,21 @@ export default function ProductDetails({ route }) {
             />
           </View>
           <Text style={styles.headerText}>Details</Text>
-          <AntDesign name="hearto" size={25} color={colors.primary} />
+          {product.favorites?.includes(auth.currentUser.uid) ? (
+            <AntDesign
+              name="heart"
+              size={25}
+              color={colors.primary}
+              onPress={() => handleFavorite(product.id)}
+            />
+          ) : (
+            <AntDesign
+              name="hearto"
+              size={25}
+              color={colors.primary}
+              onPress={() => handleFavorite(product.id)}
+            />
+          )}
         </View>
 
         <View style={styles.imageContainer}>
@@ -130,7 +156,7 @@ export default function ProductDetails({ route }) {
           <Text style={styles.productPriceText}>${product.price}</Text>
         </View>
         <View style={styles.productCheckoutButton}>
-          <Button>Add To Cart</Button>
+          <Button onPress={() => addToCart(product)}>Add To Cart</Button>
         </View>
       </View>
     </>

@@ -52,12 +52,7 @@ const styles = StyleSheet.create({
     marginTop: height(10),
     fontFamily: "SFPro-Medium",
   },
-  // title: {
-  //   fontSize: totalSize(3),
-  //   fontFamily: "Gilroy-Bold",
-  //   color: colors.primary,
-  //   marginTop: height(2),
-  // },
+
   cartContainer: {
     marginTop: height(2),
   },

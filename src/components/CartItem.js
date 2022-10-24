@@ -40,18 +40,21 @@ export default function CartItem({ item }) {
               -
             </Text>
           </View>
-
-          <Text
-            style={styles.cartItemQuantityButton}
-            onPress={() => deleteFromCart(item)}
-          >
-            <MaterialCommunityIcons
-              name="delete"
-              size={totalSize(2)}
-              color={colors.red}
-            />
+        </View>
+        <View style={styles.cartItemTotal}>
+          <Text style={styles.cartItemTotalText}>Total:</Text>
+          <Text style={styles.cartItemTotalPrice}>
+            {item.quantity} x ${item.price} = ${item.price * item.quantity}
           </Text>
         </View>
+      </View>
+      <View style={styles.cartItemDelete}>
+        <MaterialCommunityIcons
+          name="delete"
+          size={20}
+          color={colors.red}
+          onPress={() => deleteFromCart(item)}
+        />
       </View>
     </View>
   );
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
   cartItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: height(2),
+    marginBottom: height(4),
   },
   cartItemImage: {
     width: width(30),
@@ -110,5 +113,32 @@ const styles = StyleSheet.create({
   decreaseQuantity: {
     marginLeft: width(1),
     backgroundColor: colors.lightRed,
+  },
+  cartItemTotal: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: height(1),
+    borderTopWidth: 0.3,
+    borderTopColor: colors.inActiveTabBarColor,
+    paddingTop: height(1),
+  },
+  cartItemTotalText: {
+    fontSize: totalSize(1.6),
+    fontFamily: "Gilroy-Medium",
+    color: colors.primary,
+  },
+  cartItemTotalPrice: {
+    fontSize: totalSize(1.6),
+    fontFamily: "Gilroy-Medium",
+    color: colors.primary,
+    marginLeft: width(2),
+  },
+
+  cartItemDelete: {
+    position: "absolute",
+    right: 0,
+    backgroundColor: colors.lightRed,
+    padding: width(2),
+    borderRadius: 5,
   },
 });

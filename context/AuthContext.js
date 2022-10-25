@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useEffect, useState } from "react";
 import { useToast } from "react-native-toast-notifications";
-import colors from "../config/colors";
 import { auth } from "../config/firebase";
 import LoadingComponent from "../src/components/Loading";
 

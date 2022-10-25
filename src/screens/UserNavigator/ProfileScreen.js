@@ -52,7 +52,10 @@ export default function ProfileScreen() {
         <Text style={styles.userSettingsText}>Settings</Text>
 
         <View style={styles.userSettingsContainer}>
-          <Setting title="Edit Profile" />
+          <Setting
+            title="Edit Profile"
+            onPress={() => navigation.navigate("EditProfile")}
+          />
           <Setting
             title="My Favourites"
             icon={<AntDesign name="hearto" size={25} color={colors.primary} />}

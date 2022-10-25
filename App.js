@@ -28,6 +28,7 @@ import ChangePassword from "./src/screens/UserNavigator/ChangePassword";
 import CartScreen from "./src/screens/UserNavigator/CartScreen";
 import CartContext, { CartContextProvider } from "./context/CartContext";
 import ForgotPassword from "./src/screens/ForgotPassword";
+import EditProfile from "./src/screens/UserNavigator/EditProfile";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -151,6 +152,18 @@ const UserAuthNavigator = () => {
         name="ChangePassword"
         component={ChangePassword}
         options={{ headerTitle: "" }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerTitle: "Edit Profile",
+          headerTitleStyle: {
+            color: colors.primary,
+            fontSize: totalSize(2.5),
+            fontFamily: "Gilroy-Bold",
+          },
+        }}
       />
     </Stack.Navigator>
   );

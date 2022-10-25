@@ -20,21 +20,24 @@ export const CartContextProvider = ({ children }) => {
   const addToCart = (product) => {
     const productExists = cart.find((item) => item.id === product.id);
     if (productExists) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id
-            ? { ...productExists, quantity: productExists.quantity + 1 }
-            : item
-        )
-      );
+      // limit the quantity to 10
+      if (productExists.quantity < 10) {
+        setCart(
+          cart.map((item) =>
+            item.id === product.id
+              ? { ...productExists, quantity: productExists.quantity + 1 }
+              : item
+          )
+        );
 
-      storage.storeCartData(
-        cart.map((item) =>
-          item.id === product.id
-            ? { ...productExists, quantity: productExists.quantity + 1 }
-            : item
-        )
-      );
+        storage.storeCartData(
+          cart.map((item) =>
+            item.id === product.id
+              ? { ...productExists, quantity: productExists.quantity + 1 }
+              : item
+          )
+        );
+      }
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
       storage.storeCartData([...cart, { ...product, quantity: 1 }]);
@@ -61,21 +64,27 @@ export const CartContextProvider = ({ children }) => {
 
   const increaseQuantity = (product) => {
     const productExists = cart.find((item) => item.id === product.id);
-    setCart(
-      cart.map((item) =>
-        item.id === product.id
-          ? { ...productExists, quantity: productExists.quantity + 1 }
-          : item
-      )
-    );
 
-    storage.storeCartData(
-      cart.map((item) =>
-        item.id === product.id
-          ? { ...productExists, quantity: productExists.quantity + 1 }
-          : item
-      )
-    );
+    if (productExists) {
+      // limit the quantity to 10
+      if (productExists.quantity < 10) {
+        setCart(
+          cart.map((item) =>
+            item.id === product.id
+              ? { ...productExists, quantity: productExists.quantity + 1 }
+              : item
+          )
+        );
+
+        storage.storeCartData(
+          cart.map((item) =>
+            item.id === product.id
+              ? { ...productExists, quantity: productExists.quantity + 1 }
+              : item
+          )
+        );
+      }
+    }
   };
 
   const decreaseQuantity = (product) => {

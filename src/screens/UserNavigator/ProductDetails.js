@@ -180,6 +180,12 @@ export default function ProductDetails({ route }) {
 }
 
 const ImageModalView = ({ image, visible, setVisible }) => {
+  const images = [
+    {
+      url: image,
+    },
+  ];
+
   return (
     <Modal
       animationType="fade"
@@ -191,7 +197,7 @@ const ImageModalView = ({ image, visible, setVisible }) => {
       }}
     >
       <ImageViewer
-        imageUrls={[{ url: image }]}
+        imageUrls={images}
         enableSwipeDown={true}
         onSwipeDown={() => {
           setVisible(!visible);

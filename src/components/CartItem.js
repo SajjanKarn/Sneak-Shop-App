@@ -27,12 +27,14 @@ export default function CartItem({ item }) {
           </Text>
 
           <View style={styles.cartItemQuantityButtons}>
-            <Text
-              style={[styles.cartItemQuantityButton, styles.increaseQuantity]}
-              onPress={() => increaseQuantity(item)}
-            >
-              +
-            </Text>
+            {item.quantity < 10 && (
+              <Text
+                style={[styles.cartItemQuantityButton, styles.increaseQuantity]}
+                onPress={() => increaseQuantity(item)}
+              >
+                +
+              </Text>
+            )}
             <Text
               style={[styles.cartItemQuantityButton, styles.decreaseQuantity]}
               onPress={() => decreaseQuantity(item)}

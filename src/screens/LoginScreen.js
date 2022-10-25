@@ -63,7 +63,12 @@ export default function LoginScreen({ navigation }) {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        <Text
+          style={styles.forgotPassword}
+          onPress={() => navigation.navigate("ForgotPassword")}
+        >
+          Forgot Password?
+        </Text>
         <Text
           style={styles.footerText}
           onPress={() => navigation.navigate("Register")}

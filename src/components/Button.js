@@ -1,3 +1,4 @@
+import { AntDesign } from "@expo/vector-icons";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -14,6 +15,7 @@ export default function Button({
   color = colors.white,
   fontSize = totalSize(1.8),
   onPress = () => {},
+  marginTop = null,
   loading = false,
 }) {
   if (loading) {
@@ -25,7 +27,10 @@ export default function Button({
   } else {
     return (
       <TouchableOpacity
-        style={[styles.buttonContainer, { backgroundColor }]}
+        style={[
+          styles.buttonContainer,
+          { backgroundColor, marginTop: marginTop ? marginTop : 0 },
+        ]}
         onPress={onPress}
         activeOpacity={0.7}
       >
@@ -51,6 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: totalSize(3),
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
   buttonText: {
     fontFamily: "SFPro-Medium",

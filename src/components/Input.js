@@ -9,10 +9,17 @@ export default function Input({
   keyboardType = "default",
   secureTextEntry = false,
   multiline = false,
+  inputStyle,
   ...otherProps
 }) {
   return (
-    <View style={[styles.inputContainer, multiline ? styles.multiline : null]}>
+    <View
+      style={[
+        styles.inputContainer,
+        multiline ? styles.multiline : null,
+        inputStyle,
+      ]}
+    >
       <View style={styles.icon}>{icon}</View>
       <TextInput
         placeholder={placeholder}

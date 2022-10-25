@@ -27,6 +27,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import ChangePassword from "./src/screens/UserNavigator/ChangePassword";
 import CartScreen from "./src/screens/UserNavigator/CartScreen";
 import CartContext, { CartContextProvider } from "./context/CartContext";
+import ForgotPassword from "./src/screens/ForgotPassword";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -171,6 +172,18 @@ const AuthNavigator = () => (
       name="Register"
       component={RegisterScreen}
       options={{ headerTitle: "" }}
+    />
+    <Stack.Screen
+      name="ForgotPassword"
+      component={ForgotPassword}
+      options={{
+        headerTitle: "Forgot Password",
+        headerTitleStyle: {
+          color: colors.primary,
+          fontSize: totalSize(2.2),
+          fontFamily: "Gilroy-Bold",
+        },
+      }}
     />
   </Stack.Navigator>
 );

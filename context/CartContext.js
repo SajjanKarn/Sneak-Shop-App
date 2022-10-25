@@ -11,7 +11,7 @@ export const CartContextProvider = ({ children }) => {
     const getCartData = async () => {
       const cartData = await storage.getCartData();
       if (cartData) {
-        setCart(cartData);
+        setCart(cartData.reverse());
       }
     };
     getCartData();

@@ -7,16 +7,18 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
 } from "react-native";
 import Button from "../../components/Button";
 import { width, height, totalSize } from "react-native-dimension";
 import colors from "../../../config/colors";
 
 import { useContext, useEffect, useState } from "react";
-import firebase, { auth, firestore } from "../../../config/firebase";
+import { auth, firestore } from "../../../config/firebase";
 import LoadingComponent from "../../components/Loading";
 import { useToast } from "react-native-toast-notifications";
 import CartContext from "../../../context/CartContext";
+import ImageViewer from "react-native-image-zoom-viewer";
 
 export default function ProductDetails({ route }) {
   const toast = useToast();
@@ -26,6 +28,7 @@ export default function ProductDetails({ route }) {
   const [product, setProduct] = useState({});
   const [productActiveImage, setProductActiveImage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   // get the product id from the route params
   const { id } = route.params;
@@ -93,12 +96,17 @@ export default function ProductDetails({ route }) {
 
         <View style={styles.imageContainer}>
           {!product.images ? null : (
-            <Image
-              style={styles.image}
-              source={{
-                uri: productActiveImage,
-              }}
-            />
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setVisible(!visible)}
+            >
+              <Image
+                style={styles.image}
+                source={{
+                  uri: productActiveImage,
+                }}
+              />
+            </TouchableOpacity>
           )}
           <View style={styles.productImageChoice}>
             {!product.images
@@ -159,9 +167,42 @@ export default function ProductDetails({ route }) {
           <Button onPress={() => addToCart(product)}>Add To Cart</Button>
         </View>
       </View>
+
+      {visible && (
+        <ImageModalView
+          image={productActiveImage}
+          visible={visible}
+          setVisible={setVisible}
+        />
+      )}
     </>
   );
 }
+
+const ImageModalView = ({ image, visible, setVisible }) => {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={visible}
+      collapsable={true}
+      onRequestClose={() => {
+        setVisible(!visible);
+      }}
+    >
+      <ImageViewer
+        imageUrls={[{ url: image }]}
+        enableSwipeDown={true}
+        onSwipeDown={() => {
+          setVisible(!visible);
+        }}
+        onCancel={() => {
+          setVisible(!visible);
+        }}
+      />
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
